@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.gym.app.controllers.FrontDeskLayoutController"
+            prefWidth="1200.0"
+            prefHeight="760.0"
+            styleClass="workspace-root">
+
+    <left>
+        <VBox prefWidth="240.0" minWidth="240.0" spacing="6.0" styleClass="sidebar">
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <StackPane minWidth="36.0" minHeight="36.0" maxWidth="36.0" maxHeight="36.0"
+                           styleClass="sidebar-brand-mark">
+                    <Label text="G" styleClass="sidebar-brand-mark-text"/>
+                </StackPane>
+                <VBox spacing="2.0">
+                    <Label text="GYM SYSTEM" styleClass="sidebar-brand-name"/>
+                    <Label text="FRONT DESK PORTAL" styleClass="sidebar-brand-caption"/>
+                </VBox>
+            </HBox>
+
+            <Region minHeight="18.0" prefHeight="18.0"/>
+
+            <Label text="FRONT DESK" styleClass="sidebar-section-label"/>
+
+            <Button fx:id="memberManagementBtn"
+                    text="Member Management"
+                    maxWidth="Infinity"
+                    onAction="#handleShowMemberManagement"
+                    styleClass="nav-button-active"/>
+
+            <Button fx:id="checkInBtn"
+                    text="Check-in"
+                    maxWidth="Infinity"
+                    onAction="#handleShowCheckIn"
+                    styleClass="nav-button"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <VBox spacing="10.0" styleClass="sidebar-footer">
+                <VBox spacing="2.0">
+                    <Label text="Front Desk Staff" styleClass="sidebar-user-name"/>
+                    <Label text="Reception Workstation" styleClass="sidebar-user-role"/>
+                </VBox>
+                <Button text="Log out"
+                        maxWidth="Infinity"
+                        onAction="#handleLogout"
+                        styleClass="logout-button"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox>
+            <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="topbar">
+                <VBox spacing="2.0">
+                    <Label fx:id="headerTitleLabel" text="Member Management" styleClass="page-title"/>
+                    <Label fx:id="headerSubtitleLabel"
+                           text="View, register, update, and manage gym members"
+                           styleClass="page-subtitle"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label text="Front-end Demo Mode" styleClass="mode-pill"/>
+            </HBox>
+
+            <StackPane fx:id="contentArea" VBox.vgrow="ALWAYS" styleClass="content-area"/>
+        </VBox>
+    </center>
+
+</BorderPane>

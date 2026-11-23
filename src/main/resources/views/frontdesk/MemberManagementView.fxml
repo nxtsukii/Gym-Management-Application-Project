@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gym.app.controllers.MemberManagementController"
+      spacing="16.0">
+
+    <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="card">
+        <TextField fx:id="searchField"
+                   promptText="Search by Member ID, full name, or phone..."
+                   onAction="#handleSearch"
+                   HBox.hgrow="ALWAYS"
+                   styleClass="search-field"/>
+
+        <Button text="Search"
+                onAction="#handleSearch"
+                styleClass="action-primary-button"/>
+
+        <Button text="Reset"
+                onAction="#handleReset"
+                styleClass="secondary-button"/>
+
+        <Region minWidth="8.0" prefWidth="8.0"/>
+
+        <Button text="+ Add Member"
+                onAction="#handleAddMember"
+                styleClass="action-primary-button"/>
+    </HBox>
+
+    <Label fx:id="feedbackBanner"
+           text=""
+           managed="false"
+           visible="false"
+           maxWidth="Infinity"
+           wrapText="true"/>
+
+    <HBox spacing="16.0" VBox.vgrow="ALWAYS">
+        <VBox spacing="12.0" HBox.hgrow="ALWAYS" styleClass="card">
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <Label text="Member Directory" styleClass="card-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="memberCountLabel"
+                       text="Showing 0 of 0 members"
+                       styleClass="card-subtitle"/>
+            </HBox>
+
+            <TableView fx:id="memberTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="Member ID"
+                                 minWidth="110.0" prefWidth="120.0"/>
+                    <TableColumn fx:id="nameColumn" text="Full Name"
+                                 minWidth="155.0" prefWidth="175.0"/>
+                    <TableColumn fx:id="phoneColumn" text="Phone"
+                                 minWidth="115.0" prefWidth="130.0"/>
+                    <TableColumn fx:id="emailColumn" text="Email"
+                                 minWidth="190.0" prefWidth="220.0"/>
+                    <TableColumn fx:id="typeColumn" text="Type"
+                                 minWidth="120.0" prefWidth="130.0"/>
+                    <TableColumn fx:id="statusColumn" text="Status"
+                                 minWidth="120.0" prefWidth="130.0"/>
+                    <TableColumn fx:id="expiryColumn" text="Expiry Date"
+                                 minWidth="115.0" prefWidth="130.0"/>
+                </columns>
+                <placeholder>
+                    <Label text="No matching members found." styleClass="card-subtitle"/>
+                </placeholder>
+            </TableView>
+        </VBox>
+
+        <VBox prefWidth="295.0" minWidth="275.0" maxWidth="315.0" spacing="14.0" styleClass="card">
+            <Label text="Member Details" styleClass="card-title"/>
+
+            <Label fx:id="emptyDetailsLabel"
+                   text="Select a member from the table to view their details, edit information, or delete."
+                   wrapText="true"
+                   styleClass="card-subtitle"/>
+
+            <VBox fx:id="detailsBox" spacing="11.0" managed="false" visible="false">
+                <VBox spacing="2.0">
+                    <Label text="MEMBER ID" styleClass="detail-label"/>
+                    <Label fx:id="detailIdLabel" text="-" styleClass="detail-value"/>
+                </VBox>
+
+                <VBox spacing="2.0">
+                    <Label text="FULL NAME" styleClass="detail-label"/>
+                    <Label fx:id="detailNameLabel" text="-" wrapText="true" styleClass="detail-value"/>
+                </VBox>
+
+                <VBox spacing="2.0">
+                    <Label text="PHONE" styleClass="detail-label"/>
+                    <Label fx:id="detailPhoneLabel" text="-" styleClass="detail-value"/>
+                </VBox>
+
+                <VBox spacing="2.0">
+                    <Label text="EMAIL" styleClass="detail-label"/>
+                    <Label fx:id="detailEmailLabel" text="-" wrapText="true" styleClass="detail-value"/>
+                </VBox>
+
+                <VBox spacing="2.0">
+                    <Label text="MEMBERSHIP TYPE" styleClass="detail-label"/>
+                    <Label fx:id="detailTypeLabel" text="-" styleClass="detail-value"/>
+                </VBox>
+
+                <VBox spacing="4.0">
+                    <Label text="MEMBERSHIP STATUS" styleClass="detail-label"/>
+                    <Label fx:id="detailStatusBadge" text="-" styleClass="badge-neutral"/>
+                </VBox>
+
+                <VBox spacing="2.0">
+                    <Label text="EXPIRY DATE" styleClass="detail-label"/>
+                    <Label fx:id="detailExpiryLabel" text="-" styleClass="detail-value"/>
+                </VBox>
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <HBox spacing="10.0">
+                <Button fx:id="editButton"
+                        text="Edit"
+                        onAction="#handleEditMember"
+                        disable="true"
+                        HBox.hgrow="ALWAYS"
+                        maxWidth="Infinity"
+                        styleClass="secondary-button"/>
+
+                <Button fx:id="deleteButton"
+                        text="Delete"
+                        onAction="#handleDeleteMember"
+                        disable="true"
+                        HBox.hgrow="ALWAYS"
+                        maxWidth="Infinity"
+                        styleClass="danger-button"/>
+            </HBox>
+        </VBox>
+    </HBox>
+</VBox>
