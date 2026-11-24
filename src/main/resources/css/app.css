@@ -526,3 +526,43 @@
     -fx-font-size: 13px;
     -fx-font-weight: bold;
 }
+
+.input-field-error {
+    -fx-border-color: #dc2626;
+    -fx-background-color: #fffafa;
+}
+
+.input-field-error:focused {
+    -fx-border-color: #dc2626;
+    -fx-effect: dropshadow(gaussian, rgba(220, 38, 38, 0.16), 5, 0.1, 0, 0);
+}
+
+.demo-section-label {
+    -fx-text-fill: #8792a2;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 0.8px;
+}
+
+.demo-role-button {
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 7px;
+    -fx-border-color: #d7dce5;
+    -fx-border-radius: 7px;
+    -fx-border-width: 1px;
+    -fx-text-fill: #344054;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 12px;
+    -fx-cursor: hand;
+}
+
+.demo-role-button:hover {
+    -fx-background-color: #eaf1ff;
+    -fx-border-color: #93c5fd;
+    -fx-text-fill: #1d4ed8;
+}
+
+.demo-role-button:pressed {
+    -fx-background-color: #dbeafe;
+}

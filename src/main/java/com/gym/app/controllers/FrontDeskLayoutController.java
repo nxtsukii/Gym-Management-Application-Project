@@ -22,6 +22,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import com.gym.app.utils.AlertUtil;
+import com.gym.app.utils.SessionContext;
 
 public class FrontDeskLayoutController {
 
@@ -62,15 +64,13 @@ public class FrontDeskLayoutController {
                 new Member("MEM-1005", "Vo Khanh Linh", "0945678901", "linh.vo@email.com",
                         "Monthly", "Inactive", LocalDate.now().minusDays(45)),
                 new Member("MEM-1006", "Do Hoang Nam", "0956789012", "nam.do@email.com",
-                        "Quarterly", "Active", LocalDate.now().plusMonths(2))
-        );
+                        "Quarterly", "Active", LocalDate.now().plusMonths(2)));
 
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         checkInRecords.addAll(
                 new CheckInRecord("MEM-1001", "Nguyen Minh Anh", "Annual", today + " 07:45:00", "Checked In"),
                 new CheckInRecord("MEM-1004", "Pham Duc Huy", "VIP", today + " 08:20:00", "Checked In"),
-                new CheckInRecord("MEM-1002", "Tran Quoc Bao", "Monthly", today + " 09:05:00", "Checked In")
-        );
+                new CheckInRecord("MEM-1002", "Tran Quoc Bao", "Monthly", today + " 09:05:00", "Checked In"));
     }
 
     @FXML
@@ -81,8 +81,7 @@ public class FrontDeskLayoutController {
         loadContentOrPlaceholder(
                 "/views/frontdesk/MemberManagementView.fxml",
                 "Member Management",
-                "MemberManagementView.fxml will be added in Step 2."
-        );
+                "MemberManagementView.fxml will be added in Step 2.");
     }
 
     @FXML
@@ -93,8 +92,7 @@ public class FrontDeskLayoutController {
         loadContentOrPlaceholder(
                 "/views/frontdesk/CheckInView.fxml",
                 "Member Check-in",
-                "CheckInView.fxml will be added in Step 3."
-        );
+                "CheckInView.fxml will be added in Step 3.");
     }
 
     private void loadContentOrPlaceholder(String fxmlPath, String title, String placeholderText) {
@@ -118,8 +116,7 @@ public class FrontDeskLayoutController {
             contentArea.getChildren().setAll(view);
         } catch (IOException e) {
             contentArea.getChildren().setAll(
-                    createPlaceholderCard("Unable to load screen", e.getMessage())
-            );
+                    createPlaceholderCard("Unable to load screen", e.getMessage()));
         }
     }
 
@@ -140,27 +137,24 @@ public class FrontDeskLayoutController {
 
     private void setActiveNav(Button activeButton) {
         memberManagementBtn.getStyleClass().setAll(
-                activeButton == memberManagementBtn ? "nav-button-active" : "nav-button"
-        );
+                activeButton == memberManagementBtn ? "nav-button-active" : "nav-button");
         checkInBtn.getStyleClass().setAll(
-                activeButton == checkInBtn ? "nav-button-active" : "nav-button"
-        );
+                activeButton == checkInBtn ? "nav-button-active" : "nav-button");
     }
 
     @FXML
     private void handleLogout() {
+        SessionContext.clear();
         try {
             FXMLLoader loader = new FXMLLoader(
-                    Objects.requireNonNull(getClass().getResource("/views/common/LoginView.fxml"),
-                            "LoginView.fxml was not found")
+                    Objects.requireNonNull(getClass().getRe                "LoginView.fxml was not found")
             );
             Parent root = loader.load();
             Stage stage = (Stage) contentArea.getScene().getWindow();
 
             Scene scene = new Scene(root, 900, 620);
             scene.getStylesheets().add(Objects.requireNonNull(
-                    getClass().getResource("/css/app.css"),
-                    "app.css was not found"
+                    getClass().getResource(        "app.css was not found"
             ).toExternalForm());
 
             stage.setMinWidth(520);
@@ -170,7 +164,11 @@ public class FrontDeskLayoutController {
             stage.setScene(scene);
             stage.centerOnScreen();
         } catch (IOException e) {
-            e.printStackTrace();
+            AlertUtil.showError(
+                    contentArea.getScene() != null ? contentArea.getScene().getWindow() : null,
+                    "Logout Error",
+                    "Unable to return to the login screen."
+            );
         }
     }
 
