@@ -566,3 +566,81 @@
 .demo-role-button:pressed {
     -fx-background-color: #dbeafe;
 }
+
+.user-badge {
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 9px;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 9px;
+    -fx-border-width: 1px;
+    -fx-padding: 5px 12px 5px 8px;
+}
+
+.user-avatar-circle {
+    -fx-background-color: #dbeafe;
+    -fx-background-radius: 999px;
+}
+
+.user-avatar-initials {
+    -fx-text-fill: #1d4ed8;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.user-badge-name {
+    -fx-text-fill: #172033;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.user-badge-id {
+    -fx-text-fill: #667085;
+    -fx-font-size: 10px;
+}
+
+.role-chip-owner {
+    -fx-background-color: #fef3c7;
+    -fx-background-radius: 999px;
+    -fx-border-color: #fcd34d;
+    -fx-border-radius: 999px;
+    -fx-border-width: 1px;
+    -fx-text-fill: #92400e;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 12px;
+}
+
+.role-chip-staff {
+    -fx-background-color: #eaf1ff;
+    -fx-background-radius: 999px;
+    -fx-border-color: #bfdbfe;
+    -fx-border-radius: 999px;
+    -fx-border-width: 1px;
+    -fx-text-fill: #1d4ed8;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 12px;
+}
+
+.topbar-logout-button {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 7px;
+    -fx-border-color: #d0d5dd;
+    -fx-border-radius: 7px;
+    -fx-border-width: 1px;
+    -fx-text-fill: #344054;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 14px;
+    -fx-cursor: hand;
+}
+
+.topbar-logout-button:hover {
+    -fx-background-color: #fef2f2;
+    -fx-border-color: #fca5a5;
+    -fx-text-fill: #b91c1c;
+}
+
+.topbar-logout-button:pressed {
+    -fx-background-color: #fee2e2;
+}

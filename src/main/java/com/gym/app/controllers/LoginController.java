@@ -25,7 +25,7 @@ import javafx.stage.Stage;
 public class LoginController {
 
     private static final String ERROR_STYLE_CLASS = "input-field-error";
-    private static final String WORKSPACE_FXML = "/views/frontdesk/FrontDeskLayout.fxml";
+    private static final String WORKSPACE_FXML = "/views/common/MainLayout.fxml";
     private static final String APP_CSS = "/css/app.css";
 
     @FXML

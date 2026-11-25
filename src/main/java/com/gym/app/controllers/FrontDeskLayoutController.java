@@ -147,15 +147,15 @@ public class FrontDeskLayoutController {
         SessionContext.clear();
         try {
             FXMLLoader loader = new FXMLLoader(
-                    Objects.requireNonNull(getClass().getRe                "LoginView.fxml was not found")
-            );
+                    Objects.requireNonNull(getClass().getResource("/views/common/LoginView.fxml"),
+                            "LoginView.fxml was not found"));
             Parent root = loader.load();
             Stage stage = (Stage) contentArea.getScene().getWindow();
 
             Scene scene = new Scene(root, 900, 620);
             scene.getStylesheets().add(Objects.requireNonNull(
-                    getClass().getResource(        "app.css was not found"
-            ).toExternalForm());
+                    getClass().getResource("/css/app.css"),
+                    "app.css was not found").toExternalForm());
 
             stage.setMinWidth(520);
             stage.setMinHeight(500);
@@ -167,8 +167,7 @@ public class FrontDeskLayoutController {
             AlertUtil.showError(
                     contentArea.getScene() != null ? contentArea.getScene().getWindow() : null,
                     "Logout Error",
-                    "Unable to return to the login screen."
-            );
+                    "Unable to return to the login screen.");
         }
     }
 
