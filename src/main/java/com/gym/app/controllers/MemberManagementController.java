@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import com.gym.app.models.Member;
+import com.gym.app.models.MembershipPackage;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -99,6 +100,7 @@ public class MemberManagementController {
     private Button deleteButton;
 
     private ObservableList<Member> members = FXCollections.observableArrayList();
+    private ObservableList<MembershipPackage> membershipPackages;
     private FilteredList<Member> filteredMembers;
 
     @FXML
@@ -115,6 +117,14 @@ public class MemberManagementController {
 
     public void setMembers(ObservableList<Member> sharedMembers) {
         this.members = sharedMembers != null ? sharedMembers : FXCollections.observableArrayList();
+        bindTableData();
+    }
+
+    public void setSharedData(ObservableList<Member> sharedMembers,
+                              ObservableList<MembershipPackage> sharedPackages) {
+        this.members = sharedMembers != null ? sharedMembers : FXCollections.observableArrayList();
+        this.membershipPackages = Objects.requireNonNull(
+                sharedPackages, "Shared membership packages must not be null.");
         bindTableData();
     }
 
@@ -261,9 +271,9 @@ public class MemberManagementController {
 
             MemberFormDialogController dialogController = loader.getController();
             if (memberToEdit == null) {
-                dialogController.setupForAdd(generateNextMemberId());
+                dialogController.setupForAdd(generateNextMemberId(), membershipPackages);
             } else {
-                dialogController.setupForEdit(memberToEdit);
+                dialogController.setupForEdit(memberToEdit, membershipPackages);
             }
 
             Stage dialogStage = new Stage();

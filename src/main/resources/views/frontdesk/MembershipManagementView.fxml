@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gym.app.controllers.MembershipManagementController"
+      spacing="16.0">
+
+    <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="card">
+        <TextField fx:id="searchField"
+                   promptText="Search by Package ID or name..."
+                   onAction="#handleSearch"
+                   HBox.hgrow="ALWAYS"
+                   styleClass="search-field"/>
+
+        <ComboBox fx:id="statusFilterComboBox"
+                  prefWidth="130.0"
+                  promptText="Status"
+                  styleClass="form-combo"/>
+
+        <Button text="Search"
+                onAction="#handleSearch"
+                styleClass="action-primary-button"/>
+
+        <Button text="Reset"
+                onAction="#handleReset"
+                styleClass="secondary-button"/>
+
+        <Region minWidth="8.0" prefWidth="8.0"/>
+
+        <Button text="+ Add Package"
+                onAction="#handleAddPackage"
+                styleClass="action-primary-button"/>
+    </HBox>
+
+    <Label fx:id="feedbackBanner"
+           text=""
+           managed="false"
+           visible="false"
+           maxWidth="Infinity"
+           wrapText="true"/>
+
+    <VBox spacing="12.0" styleClass="card">
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <Label text="Membership Packages" styleClass="card-title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="packageCountLabel"
+                   text="Showing 0 of 0 packages"
+                   styleClass="card-subtitle"/>
+        </HBox>
+
+        <TableView fx:id="packageTable"
+                   prefHeight="285.0"
+                   minHeight="220.0">
+            <columns>
+                <TableColumn fx:id="idColumn" text="Package ID"
+                             minWidth="88.0" prefWidth="95.0"/>
+                <TableColumn fx:id="nameColumn" text="Package Name"
+                             minWidth="115.0" prefWidth="130.0"/>
+                <TableColumn fx:id="durationColumn" text="Duration"
+                             minWidth="78.0" prefWidth="85.0"/>
+                <TableColumn fx:id="priceColumn" text="Price (VND)"
+                             minWidth="95.0" prefWidth="110.0"/>
+                <TableColumn fx:id="descriptionColumn" text="Description"
+                             minWidth="95.0" prefWidth="140.0"/>
+                <TableColumn fx:id="statusColumn" text="Status"
+                             minWidth="80.0" prefWidth="90.0"/>
+                <TableColumn fx:id="actionsColumn" text="Actions"
+                             minWidth="215.0" prefWidth="215.0"
+                             sortable="false"/>
+            </columns>
+            <placeholder>
+                <Label text="No membership packages match the current search or filter."
+                       styleClass="card-subtitle"/>
+            </placeholder>
+        </TableView>
+    </VBox>
+</VBox>

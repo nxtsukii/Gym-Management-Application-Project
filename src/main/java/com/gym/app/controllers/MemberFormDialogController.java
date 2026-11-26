@@ -3,7 +3,9 @@ package com.gym.app.controllers;
 import java.time.LocalDate;
 
 import com.gym.app.models.Member;
+import com.gym.app.models.MembershipPackage;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -53,23 +55,22 @@ public class MemberFormDialogController {
 
     @FXML
     public void initialize() {
-        typeComboBox.getItems().setAll("Monthly", "Quarterly", "Annual", "VIP");
         statusComboBox.getItems().setAll("Active", "Expired", "Inactive");
     }
 
-    public void setupForAdd(String nextMemberId) {
+    public void setupForAdd(String nextMemberId, ObservableList<MembershipPackage> sharedPackages) {
         this.editingMember = null;
         dialogTitleLabel.setText("Add New Member");
         dialogSubtitleLabel.setText("Enter the new member details below.");
         saveButton.setText("Add Member");
 
         memberIdField.setText(nextMemberId);
-        typeComboBox.setValue("Monthly");
+        populatePackageChoices(sharedPackages, null);
         statusComboBox.setValue("Active");
         expiryDatePicker.setValue(LocalDate.now().plusMonths(1));
     }
 
-    public void setupForEdit(Member member) {
+    public void setupForEdit(Member member, ObservableList<MembershipPackage> sharedPackages) {
         this.editingMember = member;
         dialogTitleLabel.setText("Edit Member");
         dialogSubtitleLabel.setText("Update member details or renew membership.");
@@ -79,9 +80,37 @@ public class MemberFormDialogController {
         fullNameField.setText(member.getFullName());
         phoneField.setText(member.getPhone());
         emailField.setText(member.getEmail());
-        typeComboBox.setValue(member.getMembershipType());
+        populatePackageChoices(sharedPackages, member.getMembershipType());
         statusComboBox.setValue(member.getMembershipStatus());
         expiryDatePicker.setValue(member.getExpiryDate());
+    }
+
+    private void populatePackageChoices(ObservableList<MembershipPackage> sharedPackages,
+                                       String existingPackageName) {
+        typeComboBox.getItems().clear();
+
+        if (sharedPackages != null) {
+            for (MembershipPackage membershipPackage : sharedPackages) {
+                String packageName = membershipPackage.getPackageName();
+                if (membershipPackage.isActive()
+                        && packageName != null
+                        && !typeComboBox.getItems().contains(packageName)) {
+                    typeComboBox.getItems().add(packageName);
+                }
+            }
+        }
+
+        if (existingPackageName != null && !typeComboBox.getItems().contains(existingPackageName)) {
+            typeComboBox.getItems().add(existingPackageName);
+        }
+
+        if (existingPackageName != null) {
+            typeComboBox.setValue(existingPackageName);
+        } else if (!typeComboBox.getItems().isEmpty()) {
+            typeComboBox.setValue(typeComboBox.getItems().get(0));
+        } else {
+            typeComboBox.setValue(null);
+        }
     }
 
     @FXML

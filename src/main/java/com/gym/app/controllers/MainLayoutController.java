@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import com.gym.app.models.CheckInRecord;
 import com.gym.app.models.Member;
+import com.gym.app.models.MembershipPackage;
 import com.gym.app.utils.AlertUtil;
 import com.gym.app.utils.SessionContext;
 import com.gym.app.utils.SessionContext.Role;
@@ -182,6 +183,7 @@ public class MainLayoutController {
     private final Map<AppRoute, Button> routeButtons = new EnumMap<>(AppRoute.class);
     private final ObservableList<Member> members = FXCollections.observableArrayList();
     private final ObservableList<CheckInRecord> checkInRecords = FXCollections.observableArrayList();
+    private final ObservableList<MembershipPackage> membershipPackages = FXCollections.observableArrayList();
 
     private AppRoute currentRoute;
     private boolean loggingOut;
@@ -370,7 +372,9 @@ public class MainLayoutController {
             // Inject shared front-desk state into active sub-controllers
             Object controller = loader.getController();
             if (controller instanceof MemberManagementController memberController) {
-                memberController.setMembers(members);
+                memberController.setSharedData(members, membershipPackages);
+            } else if (controller instanceof MembershipManagementController membershipController) {
+                membershipController.setMembershipPackages(membershipPackages);
             } else if (controller instanceof CheckInController checkInController) {
                 checkInController.setSharedData(members, checkInRecords);
             }
@@ -437,6 +441,7 @@ public class MainLayoutController {
         currentRoute = null;
         members.clear();
         checkInRecords.clear();
+        membershipPackages.clear();
 
         performLogoutRedirect();
     }
@@ -492,6 +497,16 @@ public class MainLayoutController {
                         "Monthly", "Inactive", LocalDate.now().minusDays(45)),
                 new Member("MEM-1006", "Do Hoang Nam", "0956789012", "nam.do@email.com",
                         "Quarterly", "Active", LocalDate.now().plusMonths(2)));
+
+        membershipPackages.setAll(
+                new MembershipPackage("PKG-001", "Monthly", 1, 300_000,
+                        "Monthly", true),
+                new MembershipPackage("PKG-002", "Quarterly", 3, 810_000,
+                        "Quarterly", true),
+                new MembershipPackage("PKG-003", "Annual", 12, 2_880_000,
+                        "Annual", true),
+                new MembershipPackage("PKG-004", "VIP", 12, 5_000_000,
+                        "VIP", true));
 
         String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         checkInRecords.setAll(
