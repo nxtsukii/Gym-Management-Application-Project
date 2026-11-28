@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gym.app.controllers.CheckInController"
+      spacing="16.0">
+
+    <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="card">
+        <TextField fx:id="searchField"
+                   promptText="Enter Member ID (e.g., MEM-1001)..."
+                   onAction="#handleSearch"
+                   HBox.hgrow="ALWAYS"
+                   styleClass="search-field"/>
+
+        <Button text="Search"
+                onAction="#handleSearch"
+                styleClass="action-primary-button"/>
+
+        <Button text="Clear"
+                onAction="#handleClear"
+                styleClass="secondary-button"/>
+    </HBox>
+
+    <Label fx:id="feedbackBanner"
+           text=""
+           managed="false"
+           visible="false"
+           maxWidth="Infinity"
+           wrapText="true"/>
+
+    <HBox spacing="16.0" VBox.vgrow="ALWAYS">
+        <VBox prefWidth="340.0" minWidth="315.0" maxWidth="370.0" spacing="14.0" styleClass="card">
+            <Label text="Member Information" styleClass="card-title"/>
+
+            <Label fx:id="emptyMemberLabel"
+                   text="Search by Member ID above to verify membership eligibility and record a check-in."
+                   wrapText="true"
+                   styleClass="card-subtitle"/>
+
+            <VBox fx:id="memberInfoBox" spacing="12.0" managed="false" visible="false">
+                <VBox spacing="2.0">
+                    <Label text="MEMBER ID" styleClass="detail-label"/>
+                    <Label fx:id="infoIdLabel" text="-" styleClass="detail-value"/>
+                </VBox>
+
+                <VBox spacing="2.0">
+                    <Label text="FULL NAME" styleClass="detail-label"/>
+                    <Label fx:id="infoNameLabel" text="-" wrapText="true" styleClass="detail-value"/>
+                </VBox>
+
+                <VBox spacing="2.0">
+                    <Label text="PHONE" styleClass="detail-label"/>
+                    <Label fx:id="infoPhoneLabel" text="-" styleClass="detail-value"/>
+                </VBox>
+
+                <VBox spacing="2.0">
+                    <Label text="MEMBERSHIP TYPE" styleClass="detail-label"/>
+                    <Label fx:id="infoTypeLabel" text="-" styleClass="detail-value"/>
+                </VBox>
+
+                <VBox spacing="4.0">
+                    <Label text="MEMBERSHIP STATUS" styleClass="detail-label"/>
+                    <Label fx:id="infoStatusBadge" text="-" styleClass="badge-neutral"/>
+                </VBox>
+
+                <VBox spacing="2.0">
+                    <Label text="EXPIRY DATE" styleClass="detail-label"/>
+                    <Label fx:id="infoExpiryLabel" text="-" styleClass="detail-value"/>
+                </VBox>
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <Button fx:id="checkInButton"
+                    text="Record Check-in"
+                    onAction="#handleRecordCheckIn"
+                    disable="true"
+                    maxWidth="Infinity"
+                    styleClass="success-button"/>
+        </VBox>
+
+        <VBox spacing="12.0" HBox.hgrow="ALWAYS" styleClass="card">
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <Label text="Check-in History" styleClass="card-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="historyCountLabel"
+                       text="0 records"
+                       styleClass="card-subtitle"/>
+            </HBox>
+
+            <TableView fx:id="historyTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="historyIdColumn" text="Member ID"
+                                 minWidth="105.0" prefWidth="115.0"/>
+                    <TableColumn fx:id="historyNameColumn" text="Member Name"
+                                 minWidth="150.0" prefWidth="180.0"/>
+                    <TableColumn fx:id="historyTypeColumn" text="Membership Type"
+                                 minWidth="120.0" prefWidth="135.0"/>
+                    <TableColumn fx:id="historyTimeColumn" text="Check-in Date &amp; Time"
+                                 minWidth="165.0" prefWidth="180.0"/>
+                    <TableColumn fx:id="historyStatusColumn" text="Check-in Status"
+                                 minWidth="115.0" prefWidth="130.0"/>
+                </columns>
+                <placeholder>
+                    <Label text="No check-in records yet." styleClass="card-subtitle"/>
+                </placeholder>
+            </TableView>
+        </VBox>
+    </HBox>
+</VBox>
