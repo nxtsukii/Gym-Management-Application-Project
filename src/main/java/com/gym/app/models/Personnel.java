@@ -99,7 +99,7 @@ public class Personnel {
     }
 
     public void setSpecialtyOrShift(String specialtyOrShift) {
-        this.specialtyOrShift.set(requireText(specialtyOrShift, "Specialty/Shift"));
+        this.specialtyOrShift.set(specialtyOrShift == null ? "" : specialtyOrShift.trim());
     }
 
     public StringProperty specialtyOrShiftProperty() {

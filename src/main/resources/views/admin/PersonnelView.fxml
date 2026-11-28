@@ -44,13 +44,13 @@
            maxWidth="Infinity"
            wrapText="true"/>
 
-    <!-- Split-Pane Layout: Left/Center Personnel TableView + Right Form Container Skeleton -->
-    <SplitPane dividerPositions="0.67"
+    <!-- Split-Pane Layout: Left/Center Personnel TableView + Right CRUD Form -->
+    <SplitPane dividerPositions="0.65"
                VBox.vgrow="ALWAYS"
                style="-fx-background-color: transparent; -fx-padding: 0;">
 
         <!-- Left / Center Pane: Personnel Directory Table -->
-        <VBox spacing="12.0" minWidth="480.0" styleClass="card">
+        <VBox spacing="12.0" minWidth="470.0" styleClass="card">
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                 <Label text="Personnel Directory" styleClass="card-title"/>
                 <Region HBox.hgrow="ALWAYS"/>
@@ -69,8 +69,8 @@
                                  minWidth="125.0" prefWidth="135.0"/>
                     <TableColumn fx:id="phoneColumn" text="Phone"
                                  minWidth="110.0" prefWidth="120.0"/>
-                    <TableColumn fx:id="specialtyShiftColumn" text="Specialty/Shift"
-                                 minWidth="185.0" prefWidth="220.0"/>
+                    <TableColumn fx:id="specialtyShiftColumn" text="Specialty / Shift"
+                                 minWidth="175.0" prefWidth="210.0"/>
                     <TableColumn fx:id="payRateColumn" text="Pay Rate"
                                  minWidth="125.0" prefWidth="135.0"/>
                     <TableColumn fx:id="statusColumn" text="Status"
@@ -83,36 +83,46 @@
             </TableView>
         </VBox>
 
-        <!-- Right Pane: Personnel Details & Preview/Edit Form Skeleton -->
-        <VBox minWidth="300.0" prefWidth="350.0" spacing="12.0" styleClass="card">
+        <!-- Right Pane: Personnel Details & CRUD Form -->
+        <VBox minWidth="320.0" prefWidth="370.0" spacing="12.0" styleClass="card">
             <HBox alignment="CENTER_LEFT" spacing="8.0">
                 <Label text="Personnel Details" styleClass="card-title"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <Label fx:id="formModeBadge"
                        text="NO SELECTION"
                        styleClass="badge-neutral"/>
+                <Button fx:id="newPersonnelButton"
+                        text="+ New"
+                        onAction="#handleNewPersonnel"
+                        styleClass="secondary-button"
+                        style="-fx-padding: 5px 11px; -fx-font-size: 12px;"/>
             </HBox>
 
             <Separator/>
 
-            <!-- Empty State Placeholder when no TableView row is selected -->
+            <!-- Empty State Placeholder when no row is selected and not in Create mode -->
             <VBox fx:id="emptyFormBox"
                   alignment="CENTER_LEFT"
-                  spacing="8.0"
+                  spacing="12.0"
                   VBox.vgrow="ALWAYS">
-                <Label text="Select a staff member or personal trainer from the table to inspect or edit their record."
+                <Label text="Select a staff member or personal trainer from the table to inspect or edit their record, or create a new personnel profile."
                        wrapText="true"
                        styleClass="card-subtitle"/>
+                <Button text="+ New Personnel"
+                        onAction="#handleNewPersonnel"
+                        styleClass="action-primary-button"/>
             </VBox>
 
-            <!-- Scrollable Form Skeleton populated on row selection -->
+            <!-- Scrollable Form Container for Create (FR-25), Update (FR-26), and Delete (FR-27) -->
             <ScrollPane fx:id="formScrollPane"
                         fitToWidth="true"
                         managed="false"
                         visible="false"
                         VBox.vgrow="ALWAYS"
                         style="-fx-background-color: transparent; -fx-background: transparent; -fx-padding: 0;">
-                <VBox spacing="11.0" style="-fx-padding: 2 4 4 2;">
+                <VBox spacing="10.0" style="-fx-padding: 2 4 6 2;">
+
+                    <!-- Read-only Auto-Generated / Assigned Personnel ID -->
                     <VBox spacing="3.0">
                         <Label text="PERSONNEL ID" styleClass="detail-label"/>
                         <TextField fx:id="formPersonnelIdField"
@@ -122,35 +132,68 @@
                                    style="-fx-background-color: #f8fafc; -fx-text-fill: #667085;"/>
                     </VBox>
 
+                    <!-- Full Name + Inline Error State -->
                     <VBox spacing="3.0">
                         <Label text="FULL NAME *" styleClass="detail-label"/>
                         <TextField fx:id="formFullNameField"
-                                   promptText="Full name"
+                                   promptText="e.g. Nguyen Van An"
                                    styleClass="input-field"/>
+                        <Label fx:id="nameErrorLabel"
+                               text=""
+                               managed="false"
+                               visible="false"
+                               wrapText="true"
+                               styleClass="validation-message"
+                               style="-fx-padding: 1 0 0 0; -fx-font-size: 11px;"/>
                     </VBox>
 
+                    <!-- Position & Status Row -->
                     <HBox spacing="10.0">
                         <VBox spacing="3.0" HBox.hgrow="ALWAYS">
                             <Label text="POSITION *" styleClass="detail-label"/>
                             <ComboBox fx:id="formPositionComboBox"
                                       maxWidth="Infinity"
+                                      promptText="Select position"
                                       styleClass="form-combo"/>
+                            <Label fx:id="positionErrorLabel"
+                                   text=""
+                                   managed="false"
+                                   visible="false"
+                                   wrapText="true"
+                                   styleClass="validation-message"
+                                   style="-fx-padding: 1 0 0 0; -fx-font-size: 11px;"/>
                         </VBox>
 
                         <VBox spacing="3.0" HBox.hgrow="ALWAYS">
                             <Label text="STATUS *" styleClass="detail-label"/>
                             <ComboBox fx:id="formStatusComboBox"
                                       maxWidth="Infinity"
+                                      promptText="Select status"
                                       styleClass="form-combo"/>
+                            <Label fx:id="statusErrorLabel"
+                                   text=""
+                                   managed="false"
+                                   visible="false"
+                                   wrapText="true"
+                                   styleClass="validation-message"
+                                   style="-fx-padding: 1 0 0 0; -fx-font-size: 11px;"/>
                         </VBox>
                     </HBox>
 
+                    <!-- Phone & Pay Rate Row -->
                     <HBox spacing="10.0">
                         <VBox spacing="3.0" HBox.hgrow="ALWAYS">
                             <Label text="PHONE *" styleClass="detail-label"/>
                             <TextField fx:id="formPhoneField"
                                        promptText="e.g. 0901234567"
                                        styleClass="input-field"/>
+                            <Label fx:id="phoneErrorLabel"
+                                   text=""
+                                   managed="false"
+                                   visible="false"
+                                   wrapText="true"
+                                   styleClass="validation-message"
+                                   style="-fx-padding: 1 0 0 0; -fx-font-size: 11px;"/>
                         </VBox>
 
                         <VBox spacing="3.0" HBox.hgrow="ALWAYS">
@@ -158,23 +201,51 @@
                             <TextField fx:id="formPayRateField"
                                        promptText="e.g. 150000"
                                        styleClass="input-field"/>
+                            <Label fx:id="payRateErrorLabel"
+                                   text=""
+                                   managed="false"
+                                   visible="false"
+                                   wrapText="true"
+                                   styleClass="validation-message"
+                                   style="-fx-padding: 1 0 0 0; -fx-font-size: 11px;"/>
                         </VBox>
                     </HBox>
 
+                    <!-- Optional Email Field -->
                     <VBox spacing="3.0">
                         <Label text="EMAIL" styleClass="detail-label"/>
                         <TextField fx:id="formEmailField"
                                    promptText="e.g. name@gym.vn"
                                    styleClass="input-field"/>
+                        <Label fx:id="emailErrorLabel"
+                               text=""
+                               managed="false"
+                               visible="false"
+                               wrapText="true"
+                               styleClass="validation-message"
+                               style="-fx-padding: 1 0 0 0; -fx-font-size: 11px;"/>
                     </VBox>
 
-                    <VBox spacing="3.0">
-                        <Label text="SPECIALTY / SHIFT *" styleClass="detail-label"/>
+                    <!-- Conditional Field: Shown & Enabled ONLY when Position == "Personal Trainer" -->
+                    <VBox fx:id="specialtyFieldContainer"
+                          spacing="3.0"
+                          managed="false"
+                          visible="false">
+                        <Label text="SPECIALTY *" styleClass="detail-label"/>
                         <TextField fx:id="formSpecialtyShiftField"
-                                   promptText="e.g. Strength &amp; Hypertrophy or Morning Shift"
+                                   disable="true"
+                                   promptText="e.g. Strength &amp; Hypertrophy"
                                    styleClass="input-field"/>
+                        <Label fx:id="specialtyErrorLabel"
+                               text=""
+                               managed="false"
+                               visible="false"
+                               wrapText="true"
+                               styleClass="validation-message"
+                               style="-fx-padding: 1 0 0 0; -fx-font-size: 11px;"/>
                     </VBox>
 
+                    <!-- Form-Level Summary Validation Message -->
                     <Label fx:id="formValidationLabel"
                            text=""
                            managed="false"
@@ -182,22 +253,33 @@
                            wrapText="true"
                            styleClass="validation-message"/>
 
-                    <!-- Form Action Skeleton Buttons -->
-                    <HBox spacing="10.0" style="-fx-padding: 6 0 0 0;">
-                        <Button fx:id="resetFormButton"
-                                text="Revert"
-                                onAction="#handleResetForm"
-                                HBox.hgrow="ALWAYS"
-                                maxWidth="Infinity"
-                                styleClass="secondary-button"/>
+                    <!-- Right-Hand Form CRUD Actions -->
+                    <VBox spacing="8.0" style="-fx-padding: 6 0 0 0;">
+                        <HBox spacing="10.0">
+                            <Button fx:id="clearFormButton"
+                                    text="Clear Form"
+                                    onAction="#handleClearForm"
+                                    HBox.hgrow="ALWAYS"
+                                    maxWidth="Infinity"
+                                    styleClass="secondary-button"/>
 
-                        <Button fx:id="saveChangesButton"
-                                text="Update Record"
-                                onAction="#handleSaveChanges"
-                                HBox.hgrow="ALWAYS"
+                            <Button fx:id="saveButton"
+                                    text="Save"
+                                    onAction="#handleSavePersonnel"
+                                    HBox.hgrow="ALWAYS"
+                                    maxWidth="Infinity"
+                                    styleClass="action-primary-button"/>
+                        </HBox>
+
+                        <Button fx:id="deleteButton"
+                                text="Deactivate / Delete Record"
+                                onAction="#handleDeletePersonnel"
+                                managed="false"
+                                visible="false"
+                                disable="true"
                                 maxWidth="Infinity"
-                                styleClass="action-primary-button"/>
-                    </HBox>
+                                styleClass="danger-button"/>
+                    </VBox>
                 </VBox>
             </ScrollPane>
         </VBox>
